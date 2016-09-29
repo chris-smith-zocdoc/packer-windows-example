@@ -1,0 +1,45 @@
+{
+  "variables": {
+    "aws_profile": "",
+    "instance_type": "t2.medium",
+    "region": "us-east-1",
+    "security_group_id": "",
+    "source_ami": "ami-2c7a073b",
+    "subnet_id": "",
+    "vpc_id": ""
+  },
+  "builders": [
+    {
+      "profile": "{{ user `aws_profile` }}",
+      "type": "amazon-ebs",
+      "ami_name": "packer-windows-example {{ timestamp }}",
+      "instance_type": "{{ user `instance_type` }}",
+      "region": "{{ user `region` }}",
+      "security_group_id": "{{ user `security_group_id` }}",
+      "source_ami": "{{ user `source_ami` }}",
+      "subnet_id": "{{ user `subnet_id` }}",
+      "vpc_id": "{{ user `vpc_id` }}",
+      "communicator": "winrm",
+      "winrm_username": "Administrator",
+      "winrm_password": "EF942DDC-2292-4FE2-BE92-57BCE3475109",
+      "winrm_timeout": "20m",
+      "winrm_use_ssl": "true",
+      "winrm_insecure": "true",
+      "user_data_file": "BootstrapWindows.ps1"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "windows-example.yml",
+      "groups": [
+        "windows"
+      ],
+      "extra_arguments": [
+        "--extra-vars",
+        "ANSIBLE_KEEP_REMOTE_FILES=1",
+        "-vvv"
+      ]
+    }
+  ]
+}
