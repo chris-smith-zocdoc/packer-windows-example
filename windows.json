@@ -36,9 +36,9 @@
         "windows"
       ],
       "extra_arguments": [
+        "-vvv",
         "--extra-vars",
-        "ANSIBLE_KEEP_REMOTE_FILES=1",
-        "-vvv"
+        "ansible_shell_type=powershell ansible_shell_executable="
       ]
     }
   ]
